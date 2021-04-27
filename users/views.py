@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 
-from .forms import UserRegister
-from django.contrib.auth.models import User
+from .forms import UserRegister, UserLogin
+from django.contrib.auth.models import User, auth
+from django.contrib.auth import authenticate,login
 
 # Create your views here.
 
@@ -25,3 +26,26 @@ def register_view(request):
             return redirect ('home-path')
 
     return render (request, 'users/register.html', {'form' : UserRegister()})
+
+
+
+def login_view(request):
+
+    if request.method == 'POST':
+        x = request.POST.get('username')
+        y = request.POST.get('password')
+        user = authenticate(request,username = x,password = y)
+        if user :
+            login(request,user)
+            return redirect('home-path')
+
+    
+    return render (request, 'users/login.html',{'form' :UserLogin() })
+
+
+def logout_view(request):
+    
+    auth.logout(request)
+    
+    
+    return render (request, 'users/logout.html',)

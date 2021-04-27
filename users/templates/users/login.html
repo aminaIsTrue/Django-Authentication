@@ -1,0 +1,12 @@
+{% extends "users/home.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{form | crispy}}
+        <input type="submit" value = "Login" class="btn btn-info">
+
+    </form>
+  
+{% endblock content %}
