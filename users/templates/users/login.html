@@ -2,8 +2,17 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
+    {% for message in messages %}
+
+    <div class="alert alert-{{message.tags}}" >
+        {{message}}
+      </div>
+      
+    {% endfor %}
     <form method="POST">
         {% csrf_token %}
+
         {{form | crispy}}
         <input type="submit" value = "Login" class="btn btn-info">
 

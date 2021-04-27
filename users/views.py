@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from .forms import UserRegister, UserLogin
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate,login
-
+from django.contrib import messages
 # Create your views here.
 
 
@@ -19,11 +19,16 @@ def register_view(request):
         obj = UserRegister(request.POST)
 
         if obj.is_valid():
+            username = obj.cleaned_data.get('username')
             obj = obj.save(commit=False)
             x = request.POST.get('email')
             obj.email = x
             obj.save()
-            return redirect ('home-path')
+            # using messages framework
+            messages.success(request, "Welcome  {}, registration with success!".format(username))
+            return redirect ('login-path')
+        else:
+            messages.warning(request,"Registration not successful,please try again ! ")
 
     return render (request, 'users/register.html', {'form' : UserRegister()})
 
@@ -38,6 +43,9 @@ def login_view(request):
         if user :
             login(request,user)
             return redirect('home-path')
+        else:
+            messages.warning(request,"Username and/or password are invalid! ")
+
 
     
     return render (request, 'users/login.html',{'form' :UserLogin() })
