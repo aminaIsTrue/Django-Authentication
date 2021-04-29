@@ -17,12 +17,11 @@ def register_view(request):
     if request.method == 'POST':
          
         obj = UserRegister(request.POST)
-
+        print(obj.__dict__, "obj before valid methode")
+        print("##########################################################################################")
         if obj.is_valid():
+            print(obj.__dict__, "obj After valid methode")
             username = obj.cleaned_data.get('username')
-            obj = obj.save(commit=False)
-            x = request.POST.get('email')
-            obj.email = x
             obj.save()
             # using messages framework
             messages.success(request, "Welcome  {}, registration with success!".format(username))
