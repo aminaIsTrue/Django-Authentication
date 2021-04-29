@@ -33,6 +33,7 @@
                         {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Hello, {{request.user}}!</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{%  url 'logout-path' %}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{%  url 'profile-path' %}">profile</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{%  url 'register-path' %}">Register</a></li>

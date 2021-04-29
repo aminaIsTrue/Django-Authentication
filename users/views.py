@@ -17,10 +17,9 @@ def register_view(request):
     if request.method == 'POST':
          
         obj = UserRegister(request.POST)
-        print(obj.__dict__, "obj before valid methode")
-        print("##########################################################################################")
+        
         if obj.is_valid():
-            print(obj.__dict__, "obj After valid methode")
+        
             username = obj.cleaned_data.get('username')
             obj.save()
             # using messages framework
@@ -56,3 +55,8 @@ def logout_view(request):
     
     
     return render (request, 'users/logout.html',)
+
+def profile_view(request):
+
+
+    return render(request, 'users/profile.html',{'user' : User.objects.get (username = request.user)})
