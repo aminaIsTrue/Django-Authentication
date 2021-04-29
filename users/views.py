@@ -4,6 +4,11 @@ from .forms import UserRegister, UserLogin
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate,login
 from django.contrib import messages
+
+from .forms import ProfileForm , UserForm
+from .models import Profile
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 
@@ -52,11 +57,32 @@ def login_view(request):
 def logout_view(request):
     
     auth.logout(request)
-    
-    
     return render (request, 'users/logout.html',)
 
+
+
+@login_required(login_url = 'login-path')
 def profile_view(request):
 
-
     return render(request, 'users/profile.html',{'user' : User.objects.get (username = request.user)})
+
+@login_required(login_url = 'login-path')
+def edit_profile_view(request):
+    
+    if request.method == 'POST':
+        obj1 = UserForm(request.POST, instance = User.objects.get(username = request.user))
+        obj2 = ProfileForm(request.POST, request.FILES, instance = Profile.objects.get(user = request.user))
+
+        #print ("#################################", type(request.FILES),"#####################")
+
+        if obj1.is_valid() and obj2.is_valid():
+            obj1 = obj1.save()
+            obj2 = obj2.save(commit = False)
+            obj2.user = request.user
+            obj2.save()
+            return redirect('profile-path')
+
+    return render(request, 'users/edit_profile.html',{'userForm' : UserForm(instance = User.objects.get(username = request.user)) ,
+     'profile' : ProfileForm(instance = Profile.objects.get(user = request.user)),
+     'user' : User.objects.get (username = request.user)
+     })

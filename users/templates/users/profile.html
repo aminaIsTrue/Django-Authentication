@@ -3,8 +3,17 @@
 
 {% block content %}
 
-<li>{{user.username}}</li>
-<li>{{user.first_name}}</li>
-<li>{{user.email}}</li>
-  
+
+<div class="media">
+    <img src="{{user.profile.image.url}}" alt="" class ="rounded-circle  profile-pic mr-3">
+    <div class="media-body">
+      <h5 class="mt-0">{{user.username}}</h5>
+      <p>{{user.first_name}}</p>
+      <p>{{user.email}}</p>
+      <a  class = "btn btn-info" href=" {% url 'edit_profile-path' %}">Edit</a>
+    </div>
+
+
+  </div>
+
 {% endblock content %}
