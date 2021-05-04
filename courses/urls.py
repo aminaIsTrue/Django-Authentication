@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-urlpatterns : [
+urlpatterns = [
 
     path('', views.course_list, name = 'course-home-path')
 ]
