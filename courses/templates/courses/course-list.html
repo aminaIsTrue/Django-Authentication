@@ -1,6 +1,13 @@
 {% extends "users/home.html" %}
-
+ {% load static %}
 {% block content %}
+
+<div class="container">
+  <div class="card m-2">
+    <img src="{% static 'assets/partners1.png' %}" class="card-img-top" alt="...">
+  </div>
+</div>
+
 <div class="row m-3">
  {% for course in courses %}
   

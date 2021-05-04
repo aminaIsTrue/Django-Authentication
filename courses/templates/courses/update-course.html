@@ -1,0 +1,12 @@
+{% extends "users/home.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+    {{form | crispy}} 
+    <input type="submit" class="btn btn-primary" value="Update Course">  
+    <a href="{% url 'course-delete-path'  course.id %}" class="btn btn-danger">Delete</a>  
+</form>
+{% endblock content %}
