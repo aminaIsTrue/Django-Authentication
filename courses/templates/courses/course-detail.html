@@ -10,9 +10,8 @@
       <p class="card-text">{{course.content}}</p>
       <a href="{% url 'course-home-path' %}" class="btn btn-primary">Back</a>
       
-      {% if course.author == request.user %}
       <a href="{% url 'course-update-path' course.id %}" class="btn btn-success">Update</a>
-      {% endif %}
+      
           
      
 
