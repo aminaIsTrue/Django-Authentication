@@ -8,6 +8,8 @@ from django.contrib import messages
 from .forms import ProfileForm , UserForm
 from .models import Profile
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+import requests
 
 # Create your views here.
 
@@ -18,18 +20,33 @@ def home(request):
 
 
 def register_view(request):
-    
+
     if request.method == 'POST':
          
         obj = UserRegister(request.POST)
         
         if obj.is_valid():
+            # get the 2 keys from settings.py and register POST form
+
+            response = request.POST.get('g-recaptcha-response')
+            secret = settings.GOOGLE_RECAPTCHA_SECRET_KEY
+
+            data = {'response' : response , 'secret' : secret}
+
+            #verification using google RECAPTCHA api and "requests" python library
+
+            data_response = requests.post('https://www.google.com/recaptcha/api/siteverify', data = data)
+            data_response = data_response.json()
+            if data_response['success']:
         
-            username = obj.cleaned_data.get('username')
-            obj.save()
-            # using messages framework
-            messages.success(request, "Welcome  {}, registration with success!".format(username))
-            return redirect ('login-path')
+                username = obj.cleaned_data.get('username')
+                obj.save()
+                # using messages framework
+                messages.success(request, "Welcome  {}, registration with success!".format(username))
+                return redirect ('login-path')
+            else:
+                messages.warning(request,"Invalid Recaptcha ! ")
+                return redirect ('register-path')
         else:
             messages.warning(request,"Registration not successful,please try again ! ")
 

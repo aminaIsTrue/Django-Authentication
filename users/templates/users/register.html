@@ -10,9 +10,14 @@
   </div>
    
  {% endfor %}
+ 
   <form method="post">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     {% csrf_token %}
     {{form | crispy}}
+
+    <div class="g-recaptcha" data-sitekey="6LcqPskaAAAAAEHslEWbXa7eudSbx5RSKI7b60Y_"></div>
+
     <input type="submit" value= "Register" class = "btn btn-info">
   </form>
 {% endblock content %}
