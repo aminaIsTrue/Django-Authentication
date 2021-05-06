@@ -4,17 +4,21 @@ from .forms import CreateCourseForm
 from.decorators import author_required
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
+from .filters import CourseFilter
 
 # Create your views here.
 
 def course_list(request):
-    course_list = Course.objects.all()
+    
+    filter_obj = CourseFilter(request.GET)
+    course_list = filter_obj.qs
+
     paginator = Paginator(course_list, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    
 
-
-    return render (request, 'courses/course-list.html', {'page_obj' : page_obj})
+    return render (request, 'courses/course-list.html', {'page_obj' : page_obj , 'filterCourse' : CourseFilter()})
 
 
 
