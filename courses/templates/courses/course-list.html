@@ -9,7 +9,7 @@
 </div>
 
 <div class="row m-3">
- {% for course in courses %}
+ {% for course in page_obj %}
   
 
 
@@ -36,5 +36,26 @@
 
  {% endfor %}
 </div>
+
+
+<div class="pagination">
+  <span class="step-links">
+      {% if page_obj.has_previous %}
+      <a href="?page=1" class="btn btn-outline-info">&laquo; first</a>
+          <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info">previous</a>
+      {% endif %}
+
+      <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info">next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-info">last &raquo;</a>
+      {% endif %}
+  </span>
+</div>
+
+
 
 {% endblock content %}

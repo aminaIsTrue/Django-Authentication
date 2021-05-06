@@ -2,13 +2,30 @@ from django.shortcuts import render, redirect
 from .models import Course
 from .forms import CreateCourseForm
 from.decorators import author_required
+from django.core.paginator import Paginator
 
 # Create your views here.
 
 def course_list(request):
+    course_list = Course.objects.all()
+    paginator = Paginator(course_list, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
 
-    return render (request, 'courses/course-list.html', {'courses' : Course.objects.all()})
+    return render (request, 'courses/course-list.html', {'page_obj' : page_obj})
+
+
+
+
+
+#  def listing(request):
+#         contact_list = Contact.objects.all()
+#     paginator = Paginator(contact_list, 25) # Show 25 contacts per page.
+
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#     return render(request, 'list.html', {'page_obj': page_obj})   
 
 
 def course_detail(request, pk):
