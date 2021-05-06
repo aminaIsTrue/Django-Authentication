@@ -2,16 +2,14 @@
  {% load static %}
 {% block content %}
 
-<div class="container">
-  <div class="card m-2">
-    <img src="{% static 'assets/partners1.png' %}" class="card-img-top" alt="...">
-  </div>
+<div class="row ">
+<div class="card" style="width: 60rem;">
+  <img src="{% static 'assets/partners1.png' %}" class="card-img-top" alt="...">
+</div>
 </div>
 
 <div class="row m-3">
  {% for course in page_obj %}
-  
-
 
    <div class="card m-2" style="width: 18rem;">
     <img src="{{ course.image.url }}" class="card-img-top" alt="...">
@@ -20,7 +18,7 @@
       <div class="media">
         <img src="{{course.author.profile.image.url}}" class=" profile-pic rounded-circle mr-3" alt="...">
         <div class="media-body">
-          <p class="mt-0">{{course.author.username}}</p>
+          <a href= "{% url 'author-courses-path' course.author.username %}" class="mt-0">{{course.author.username}}</a>
           <i class="far fa-clock"></i>
           {{course.duration}} hours
          

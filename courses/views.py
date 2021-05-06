@@ -3,29 +3,19 @@ from .models import Course
 from .forms import CreateCourseForm
 from.decorators import author_required
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 def course_list(request):
     course_list = Course.objects.all()
-    paginator = Paginator(course_list, 2)
+    paginator = Paginator(course_list, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
 
     return render (request, 'courses/course-list.html', {'page_obj' : page_obj})
 
-
-
-
-
-#  def listing(request):
-#         contact_list = Contact.objects.all()
-#     paginator = Paginator(contact_list, 25) # Show 25 contacts per page.
-
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#     return render(request, 'list.html', {'page_obj': page_obj})   
 
 
 def course_detail(request, pk):
@@ -45,7 +35,7 @@ def create_course(request):
             obj = obj.save(commit = False)
             obj.author = request.user
             obj.save()
-            return redirect('course-home-path')
+            return redirect('course-detail-path', pk = obj.pk)
 
     return render(request,'courses/create-course.html', {'form' : CreateCourseForm()})
 
@@ -83,3 +73,10 @@ def delete_course(request, id):
     # else:
     #     raise PermissionDenied
     return render(request,'courses/delete-course.html')
+
+
+def author_courses(request,username):
+    user = User.objects.get(username = username)
+
+
+    return render(request, 'courses/author-courses.html',{'courses' : user.course.all()})

@@ -8,4 +8,8 @@ urlpatterns = [
     path('course-create/', views.create_course, name = 'course-create-path'),
     path('course-update/<int:id>/', views.update_course, name = 'course-update-path'),
     path('course-delete/<int:id>/', views.delete_course, name = 'course-delete-path'),
+
+
+
+    path('author/<str:username>/', views.author_courses, name = 'author-courses-path'),
 ]
